@@ -1048,6 +1048,7 @@ class _VideoIO:
     return {
         np.uint8: {
             'rgb': 'rgb24',
+            'rgba': 'rgba',
             'yuv': 'yuv444p',
             'gray': 'gray',
         },
@@ -1079,6 +1080,7 @@ class VideoReader(_VideoIO, ContextManager[Any]):
     path_or_url: Location of input video.
     output_format: Format of output images (default 'rgb'):
       - 'rgb': Each image has shape=(height, width, 3) with R, G, B values.
+      - 'rgba': Each image has shape=(height, width, 4, with R, G, B, A values.
       - 'yuv': Each image has shape=(height, width, 3) with Y, U, V values.
       - 'gray': Each image has shape=(height, width).
     dtype: Data type for output images:
@@ -1109,9 +1111,9 @@ class VideoReader(_VideoIO, ContextManager[Any]):
                *,
                output_format: str = 'rgb',
                dtype: Any = np.uint8):
-    if output_format not in {'rgb', 'yuv', 'gray'}:
+    if output_format not in {'rgb', 'rgba', 'yuv', 'gray'}:
       raise ValueError(
-          f'Output format {output_format} is not rgb, yuv, or gray.')
+          f'Output format {output_format} is not rgb, rgba, yuv, or gray.')
     self.path_or_url = path_or_url
     self.output_format = output_format
     self.dtype = np.dtype(dtype)
