@@ -1231,6 +1231,7 @@ class VideoWriter(_VideoIO, ContextManager[Any]):
       introduce I-frames, or '-bf 0' to omit B-frames.
     input_format: Format of input images (default 'rgb'):
       - 'rgb': Each image has shape=(height, width, 3) or (height, width).
+      - 'rbga': Each image has shape=(height, width, 4) 
       - 'yuv': Each image has shape=(height, width, 3) with Y, U, V values.
       - 'gray': Each image has shape=(height, width).
     dtype: Expected data type for input images (any float input images are
@@ -1279,8 +1280,8 @@ class VideoWriter(_VideoIO, ContextManager[Any]):
     ffmpeg_args = (
         shlex.split(ffmpeg_args)
         if isinstance(ffmpeg_args, str) else list(ffmpeg_args))
-    if input_format not in {'rgb', 'yuv', 'gray'}:
-      raise ValueError(f'Input format {input_format} is not rgb, yuv, or gray.')
+    if input_format not in {'rgb', 'rgba', 'yuv', 'gray'}:
+      raise ValueError(f'Input format {input_format} is not rgb, rgba, yuv, or gray.')
     dtype = np.dtype(dtype)
     if dtype not in (np.uint8, np.uint16):
       raise ValueError(f'Type {dtype} is not np.uint8 or np.uint16.')
